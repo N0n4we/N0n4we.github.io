@@ -46,6 +46,13 @@ const songs: Song[] = [
     cover: assetUrl('songs/ALIEN Z - DEFINITIVAMENTE AFIADO.png'),
     rhythmCalibration: MUSIC_RHYTHM_CALIBRATIONS.mia,
   },
+  {
+    name: 'Rinse and Repeat (O-Prime Delta Remix)',
+    artist: 'CyanBlue, O-Prime Delta',
+    url: assetUrl('songs/CyanBlue, O-Prime Delta - Rinse and Repeat (O-Prime Delta Remix).mp3'),
+    cover: assetUrl('songs/CyanBlue, O-Prime Delta - Rinse and Repeat (O-Prime Delta Remix).jpg'),
+    rhythmCalibration: MUSIC_RHYTHM_CALIBRATIONS.mia,
+  },
 ];
 
 export default function MusicPlayer() {
