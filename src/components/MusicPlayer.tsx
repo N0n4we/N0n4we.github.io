@@ -15,9 +15,23 @@ interface Song {
 }
 
 const assetUrl = (path: string) =>
-  `${import.meta.env.BASE_URL}${path.split('/').map(encodeURIComponent).join('/')}`;
+  `${import.meta.env.BASE_URL}${encodeURI(path)}`;
 
 const songs: Song[] = [
+  {
+    name: 'How to practice opening your eyes underwater',
+    artist: 'slowly, slowly',
+    url: assetUrl('songs/How to practice opening your eyes underwater.mp3'),
+    cover: assetUrl('songs/How to practice opening your eyes underwater.jpg'),
+    rhythmCalibration: MUSIC_RHYTHM_CALIBRATIONS.mia,
+  },
+  {
+    name: 'soul seeking, searching',
+    artist: 'raiwinnn',
+    url: assetUrl('songs/soul seeking, searching.mp3'),
+    cover: assetUrl('songs/soul seeking, searching.jpg'),
+    rhythmCalibration: MUSIC_RHYTHM_CALIBRATIONS.mia,
+  },
   {
     name: 'MIA',
     artist: 'raiwinnn',
@@ -58,7 +72,7 @@ const songs: Song[] = [
 export default function MusicPlayer() {
   const containerRef = useRef<HTMLDivElement>(null);
   const rhythmCalibrationRef = useRef<MusicRhythmCalibration>(
-    MUSIC_RHYTHM_CALIBRATIONS.mia,
+    songs[0].rhythmCalibration,
   );
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -77,20 +91,24 @@ export default function MusicPlayer() {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const randomSong = songs[Math.floor(Math.random() * songs.length)];
-    rhythmCalibrationRef.current = randomSong.rhythmCalibration;
-
     const ap = new APlayer({
       container: containerRef.current,
-      listFolded: true,
+      listFolded: false,
       autoplay: false,
+      loop: 'all',
+      order: 'list',
       theme: '#282828',
-      audio: [randomSong]
+      audio: songs,
     });
 
     // Expose the underlying <audio> element for the page-wide rhythm engine.
-    const audio = (ap as unknown as { audio: HTMLAudioElement }).audio;
+    const audio = ap.audio;
     if (audio) setAudioElement(audio);
+
+    ap.on('listswitch', ({ index }) => {
+      rhythmCalibrationRef.current = songs[index].rhythmCalibration;
+      musicRhythm.connect(audio, rhythmCalibrationRef.current);
+    });
 
     // Browsers block audible autoplay until the first user interaction.
     // Start playback on that first click/key press, then remove the listeners

@@ -32,6 +32,7 @@ declare module 'aplayer' {
     pause(): void;
     seek(time: number): void;
     toggle(): void;
+    on(event: 'listswitch', handler: (event: { index: number }) => void): void;
     on(event: string, handler: () => void): void;
     destroy(): void;
     paused: boolean;

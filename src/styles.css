@@ -651,6 +651,48 @@ pre code,
   background: var(--unified-background) !important;
 }
 
+#aplayer .aplayer-list li {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  border-color: var(--border-color);
+}
+
+#aplayer .aplayer-list-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#aplayer .aplayer-list-index,
+#aplayer .aplayer-list-author {
+  flex-shrink: 0;
+  color: var(--post-meta-color);
+}
+
+#aplayer .aplayer-list-author {
+  max-width: 40%;
+  margin-left: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#aplayer .aplayer-list li.aplayer-list-light {
+  background: var(--border-color);
+}
+
+#aplayer .aplayer-list li:hover {
+  background: var(--hover-background);
+  color: var(--hover-text);
+}
+
+#aplayer .aplayer-list li:is(:hover, .aplayer-list-light) :is(.aplayer-list-index, .aplayer-list-author) {
+  color: inherit;
+}
+
 /* ---------- Glitch Effect ---------- */
 
 /* Blackout spans: cover the source glyphs with the post surface. */
